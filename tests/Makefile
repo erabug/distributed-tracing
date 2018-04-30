@@ -6,15 +6,15 @@ test:
 crossdock-binary:
 	GOOS=linux CGO_ENABLED=0 installsuffix=cgo go build -o ./crossdock-linux ./main.go
 
-example-binary:
-	GOOS=linux CGO_ENABLED=0 installsuffix=cgo go build -o ./example/example-linux ./example/main.go
+nrtracer-binary:
+	GOOS=linux CGO_ENABLED=0 installsuffix=cgo go build -o ./nrtracer/nrtracer-linux ./nrtracer/main.go
 
-crossdock: crossdock-binary example-binary
+crossdock: crossdock-binary nrtracer-binary
 	docker-compose -f $(TESTBED_YAML) kill
 	docker-compose -f $(TESTBED_YAML) rm -f refnode
 	$(MAKE) crossdock-run
 
-crossdock-fresh: crossdock-binary example-binary
+crossdock-fresh: crossdock-binary nrtracer-binary
 	docker-compose -f $(TESTBED_YAML) kill
 	docker-compose -f $(TESTBED_YAML) rm --force
 	docker-compose -f $(TESTBED_YAML) pull
